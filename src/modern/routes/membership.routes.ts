@@ -1,7 +1,6 @@
 import express, { Request, Response } from "express";
 import { validateCreateMembershipRequestBody } from "../validations/membership.validations";
 import memberships from "../../data/memberships.json"
-import membershipPeriods from "../../data/membership-periods.json";
 import { createMembership } from "../service/membership.service";
 import { createMembershipPeriods } from "../service/membership-period.service";
 import { CreateMembershipRequest } from "./requests/create-membership.requests";
