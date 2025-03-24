@@ -1,26 +1,24 @@
 import { Membership } from "../model/membership.model";
+import { CreateMembershipRequest } from "../routes/requests/create-membership.requests";
 import { createMembership } from "./membership.service";
 
 describe("Tests for validating membership creation", () => {
-    const baseMembership: Membership = {
-        id: 1,
-        uuid: "123e4567-e89b-12d3-a456-426614174000",
+    const validUntilDefaultDate = new Date("2023-12-31");
+    const baseMembership: CreateMembershipRequest = {
         name: "Platinum Plan",
-        user: 2000,
         recurringPrice: 150.0,
         validFrom: new Date("2023-01-01"),
-        validUntil: new Date("2023-12-31"),
         state: "active",
         paymentMethod: "credit card",
         billingInterval: "monthly",
         billingPeriods: 12
-      };
+    };
 
     it("should create a membership with monthly plan ", () => {
         const membership = createMembership(baseMembership);
         expect(membership.state).toEqual("expired");
 
-        const baseMembershipValidUntilMonthResult = baseMembership.validUntil;
+        const baseMembershipValidUntilMonthResult = validUntilDefaultDate;
         baseMembershipValidUntilMonthResult.setMonth(membership.validFrom.getMonth() + membership.billingPeriods);
         expect(membership.validUntil.getMonth()).toEqual(baseMembershipValidUntilMonthResult.getMonth());
     })
@@ -34,7 +32,7 @@ describe("Tests for validating membership creation", () => {
         const membership = createMembership(yearlyMembership);
         expect(membership.state).toEqual("active");
 
-        const baseMembershipValidUntilMonthResult = baseMembership.validUntil;
+        const baseMembershipValidUntilMonthResult = validUntilDefaultDate;
         baseMembershipValidUntilMonthResult.setMonth(membership.validFrom.getMonth() + membership.billingPeriods * 12);
         expect(membership.validUntil.getFullYear()).toEqual(2026);
     })
@@ -48,7 +46,7 @@ describe("Tests for validating membership creation", () => {
         const membership = createMembership(weeklyMembership);
         expect(membership.state).toEqual("expired");
 
-        const baseMembershipValidUntilMonthResult = baseMembership.validUntil;
+        const baseMembershipValidUntilMonthResult = validUntilDefaultDate;
         baseMembershipValidUntilMonthResult.setMonth(membership.validFrom.getMonth() + membership.billingPeriods * 7);
 
         expect(membership.validUntil.getDay()).toEqual(0);
