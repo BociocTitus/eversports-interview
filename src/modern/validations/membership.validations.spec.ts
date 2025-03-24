@@ -6,7 +6,6 @@ describe("membership-validations-test", () => {
         name: "Platinum Plan",
         recurringPrice: 150.0,
         validFrom: new Date("2023-01-01"),
-        validUntil: new Date("2023-12-31"),
         state: "active",
         paymentMethod: "credit card",
         billingInterval: "monthly",
