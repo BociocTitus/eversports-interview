@@ -1,4 +1,3 @@
-import { Membership } from "../model/membership.model";
 import { CreateMembershipRequest } from "../routes/requests/create-membership.requests";
 
 interface ValidationRule {
@@ -11,6 +10,7 @@ export const validateCreateMembershipRequestBody = (membership: CreateMembership
     // Moreover it is easier to extend and read each validation rule individually
     // The last validaiton rule was at the border where I wanted to add the possibility of a more complex rule in the class design
     // But due to it's simplistic operation I chose to just duplicate the code
+    // another good way to do this is maybe extend validation rules by combining them with their own error message
     const validationRules: ValidationRule[] = [
         { 
             validation: (membership: CreateMembershipRequest) => !membership.name || !membership.recurringPrice,
