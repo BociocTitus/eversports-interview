@@ -1,11 +1,9 @@
 Notes:
- - In order to test the compatibility of the answers between the legacy routes and the new ones I created a suite of tests (
-    routes-compatibility.spec.ts.spec.ts)
+ - In order to test the compatibility of the answers between the legacy routes and the new ones I created a suite of tests (routes-compatibility.spec.ts.spec.ts)
  - I sperated request handling, validation, data creation and save (in that order)
- - For simplicity purposes I did not create a repository layer as 
- - Introducing type safety revealed a few vulnerabilities: the domain model and the data in the json file do not have the same schema affecting the corectness of the result of the GET request
+ - Introducing type safety revealed a few vulnerabilities: the domain model and the data in the json file do not have the same schema affecting the corectness of the result of the GET request (the join between memberships and periods does not work)
  - If there were ambiguities I did not correct the business logic in order to stick to the same contract - the reason I did this was because in production if another service would have been dependent on the answers of those services it could lead to integration problems (either web apps or other microservices). As a result I added TODO comments and handling them would be it's own task/effort
  - In terms of validation I assumed that anything can come as undefined from an external service, however based on the validation rules maybe it would have been better to not allow all fields to be null and only validate business logic
  - I kept the same error handler for compatibility purposes
- - In the future, for migration to database access instead of json files I would add a Repository interface which is used in the service layer. This repository interface can be implemented by 2 classes JsonRepository and DatabaseRepository (names subject to change) and when a full migration would happen the JsonRepository would be switched with the DatabaseRepository
+ - In the future, for migration to database access instead of json files I would add a Repository interface which is used in the service layer. This repository interface can be implemented by 2 classes JsonRepository and DatabaseRepository (names subject to change) and when a full migration would happen the JsonRepository would be switched with the DatabaseRepository (this would also allow testing the service independently of the repository implementation)
  - Furthermore, I kept most of the code here functional style (did not convert it into an OOP solution) due to the simplistic nature of the task it performs. However in case more features would be added then I would probably extend it for a hexagonal architecture (or something else depending on how this project interacts with other parties like web applications and microservices)
